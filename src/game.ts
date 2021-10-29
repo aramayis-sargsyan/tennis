@@ -1,23 +1,13 @@
 import * as PIXI from 'pixi.js';
-import { Board } from './board/board';
-import { BoardConfig } from './config';
-import { LoseGame } from './loseGame';
-import { Queue } from './queue';
-import { Score } from './score';
+import { Arena } from './arena/arena';
 
 export class Game extends PIXI.Application {
-    board: Board;
-    queue: Queue;
-    score: Score;
-    score1: Score;
-    los: LoseGame;
-
     x: number[];
     constructor() {
         super({
             width: window.innerWidth,
             height: window.innerHeight,
-            backgroundColor: 0x444444,
+            backgroundColor: 0xbbbbbb,
         });
 
         document.body.appendChild(this.view);
@@ -29,7 +19,13 @@ export class Game extends PIXI.Application {
     }
 
     _onLoadComplete() {
-        console.warn('load complete');
+        const arena = new Arena();
+        arena.build();
+        arena.buildRow();
+        // arena.buildCircle();
+        arena.buildBall();
+        arena.setBallListeners();
+        this.stage.addChild(arena);
     }
 
     _resize(width?, height?) {
