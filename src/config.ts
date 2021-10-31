@@ -1,7 +1,6 @@
 export const AreaConfig = {
-    cell_width: window.innerWidth,
-    cell_height: 0.5,
+    cell_width: 0.8,
+    cell_height: 0.8,
     cell_lineStyle: 20,
-    circle_radius: 50,
-    ball_radius: 20,
+    ball_radius: 30,
 };

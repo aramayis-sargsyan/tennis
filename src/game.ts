@@ -3,6 +3,7 @@ import { Arena } from './arena/arena';
 
 export class Game extends PIXI.Application {
     x: number[];
+    arena: Arena;
     constructor() {
         super({
             width: window.innerWidth,
@@ -19,13 +20,11 @@ export class Game extends PIXI.Application {
     }
 
     _onLoadComplete() {
-        const arena = new Arena();
-        arena.build();
-        arena.buildRow();
-        // arena.buildCircle();
-        arena.buildBall();
-        arena.setBallListeners();
-        this.stage.addChild(arena);
+        this.arena = new Arena();
+        this.arena.build();
+        this.arena.buildRow();
+        this.arena.buildBall();
+        this.stage.addChild(this.arena);
     }
 
     _resize(width?, height?) {
@@ -48,6 +47,7 @@ export class Game extends PIXI.Application {
     }
 
     _update() {
+        this.arena.moveBall();
         //
     }
 }
