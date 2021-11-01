@@ -1,12 +1,12 @@
 import { Graphics } from 'pixi.js';
-import { AreaConfig } from '../config';
+import { ArenaConfig } from '../config';
 
 export class Row extends Graphics {
     constructor() {
         super();
     }
 
-    _build() {
-        this.lineStyle(2, 0x444444);
+    _build(rowHeight) {
+        this.lineStyle(rowHeight, 0x222222);
     }
 }

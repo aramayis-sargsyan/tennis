@@ -1,18 +1,24 @@
 import { Graphics } from 'pixi.js';
-import { AreaConfig } from '../config';
-import { Circle } from './circle';
+import { ArenaConfig } from '../config';
+
 export class Ball extends Graphics {
-    velocity: number[];
+    velocity: { x: number; y: number };
+
     constructor() {
         super();
     }
 
-    _build() {
-        const { ball_radius } = AreaConfig;
-
+    build() {
+        const { ball_radius } = ArenaConfig;
         this.beginFill(0xffffff);
         this.drawCircle(0, 0, ball_radius);
         this.endFill();
-        this.velocity = [0, 0];
+    }
+
+    setVelosity() {
+        this.velocity = {
+            x: 1,
+            y: -1,
+        };
     }
 }

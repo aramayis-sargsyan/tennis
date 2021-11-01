@@ -1,9 +1,11 @@
 import * as PIXI from 'pixi.js';
 import { Arena } from './arena/arena';
+import { ArenaBeckground } from './arena/arena-bg';
 
 export class Game extends PIXI.Application {
     x: number[];
     arena: Arena;
+    bgBoard: ArenaBeckground;
     constructor() {
         super({
             width: window.innerWidth,
@@ -20,11 +22,8 @@ export class Game extends PIXI.Application {
     }
 
     _onLoadComplete() {
-        this.arena = new Arena();
-        this.arena.build();
-        this.arena.buildRow();
-        this.arena.buildBall();
-        this.stage.addChild(this.arena);
+        this._buildBgBoard();
+        this._BuildArea();
     }
 
     _resize(width?, height?) {
@@ -44,6 +43,20 @@ export class Game extends PIXI.Application {
 
     _resizeRenderer(width, height) {
         this.renderer.resize(width, height);
+    }
+
+    _buildBgBoard() {
+        this.bgBoard = new ArenaBeckground();
+        this.bgBoard.buildBg();
+        this.bgBoard.buildRow();
+        this.stage.addChild(this.bgBoard);
+    }
+
+    _BuildArea() {
+        this.arena = new Arena();
+        this.arena.buildBoard();
+        this.arena.buildBall();
+        this.stage.addChild(this.arena);
     }
 
     _update() {

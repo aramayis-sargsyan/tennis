@@ -1,22 +1,17 @@
 import { Graphics } from 'pixi.js';
-import { AreaConfig } from '../config';
+import { ArenaConfig } from '../config';
 
 export class Cell extends Graphics {
     constructor() {
         super();
     }
 
-    _build() {
-        const { cell_width, cell_height, cell_lineStyle } = AreaConfig;
-        this.lineStyle(cell_lineStyle, 0x444444, 1, 1);
-        this.beginFill(0x009334);
+    _build(width, height, lineStyle, overflow) {
+        this.lineStyle(lineStyle, 0x222222, 1, 1);
+        this.beginFill(0xffffff, overflow);
 
-        this.drawRect(
-            0,
-            0,
-            window.innerWidth * cell_width - 2 * cell_lineStyle,
-            cell_height * window.innerHeight - 2 * cell_lineStyle,
-        );
+        this.drawRect(0, 0, width - 2 * lineStyle, height - 2 * lineStyle);
         this.endFill();
+        this.pivot.set(this.width / 2, this.height / 2);
     }
 }
