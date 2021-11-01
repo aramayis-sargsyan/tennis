@@ -3,20 +3,30 @@ export const arenaWall = (xStart, yStart, xMove, yMove, xEnd, yEnd) => {
     const { cell_width, cell_lineStyle, cell_height, row_height, wall_radius } = ArenaConfig;
     let x = xStart - wall_radius;
     let y = yStart - wall_radius;
-    console.log((wall_radius * (xMove - xStart)) / Math.sqrt((xMove - xStart) ** 2 + (yMove - yStart) ** 2) + xStart);
 
     x = (wall_radius * (xMove - xStart)) / Math.sqrt((xMove - xStart) ** 2 + (yMove - yStart) ** 2) + xStart;
     y = (wall_radius * (yMove - yStart)) / Math.sqrt((xMove - xStart) ** 2 + (yMove - yStart) ** 2) + yStart;
 
-    xEnd = Math.min(
-        Math.max(xMove, Math.max((window.innerWidth - cell_width) / 2 + cell_lineStyle), x),
-        Math.min((window.innerWidth + cell_width) / 2 - cell_lineStyle, xStart + wall_radius),
+    let xMLR = Math.max(
+        (window.innerWidth - cell_width) / 2 + cell_lineStyle,
+        Math.min(xMove, (window.innerWidth + cell_width) / 2 - cell_lineStyle),
     );
+    if (xMLR > xStart) {
+        xEnd = Math.min(x, xMLR);
+    } else {
+        xEnd = Math.max(x, xMLR);
+    }
 
-    yEnd = Math.min(
-        Math.max(yMove, Math.max(window.innerHeight - cell_height / 2 + row_height / 2, y)),
-        Math.min(window.innerHeight - cell_lineStyle, yStart + wall_radius),
+    let yMLR = Math.max(
+        window.innerHeight - cell_height / 2 + row_height / 2,
+        Math.min(yMove, window.innerHeight - cell_lineStyle),
     );
+    console.log(yMLR);
+    if (yMLR > yStart) {
+        yEnd = Math.min(y, yMLR);
+    } else {
+        yEnd = Math.max(y, yMLR);
+    }
 
     return { x: xEnd, y: yEnd };
 };

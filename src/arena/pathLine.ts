@@ -7,6 +7,6 @@ export class Row extends Graphics {
     }
 
     _build(rowHeight) {
-        this.lineStyle(rowHeight, 0x222222);
+        this.lineStyle(rowHeight, 0xff2222);
     }
 }
