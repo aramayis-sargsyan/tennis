@@ -5,5 +5,5 @@ export const ArenaConfig = {
     ball_radius: 30,
     row_height: 2,
     wall_height: 3,
-    wall_radius: 100,
+    wall_radius: 200,
 };

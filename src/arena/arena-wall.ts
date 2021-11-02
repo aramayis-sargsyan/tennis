@@ -1,8 +1,10 @@
 import { ArenaConfig } from '../config';
-export const arenaWall = (xStart, yStart, xMove, yMove, xEnd, yEnd) => {
+export const arenaWall = (xStart, yStart, xMove, yMove) => {
     const { cell_width, cell_lineStyle, cell_height, row_height, wall_radius } = ArenaConfig;
     let x = xStart - wall_radius;
     let y = yStart - wall_radius;
+    let xEnd = xStart;
+    let yEnd = yStart;
 
     x = (wall_radius * (xMove - xStart)) / Math.sqrt((xMove - xStart) ** 2 + (yMove - yStart) ** 2) + xStart;
     y = (wall_radius * (yMove - yStart)) / Math.sqrt((xMove - xStart) ** 2 + (yMove - yStart) ** 2) + yStart;
@@ -21,7 +23,6 @@ export const arenaWall = (xStart, yStart, xMove, yMove, xEnd, yEnd) => {
         window.innerHeight - cell_height / 2 + row_height / 2,
         Math.min(yMove, window.innerHeight - cell_lineStyle),
     );
-    console.log(yMLR);
     if (yMLR > yStart) {
         yEnd = Math.min(y, yMLR);
     } else {

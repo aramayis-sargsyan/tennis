@@ -5,12 +5,14 @@ import { ArenaConfig } from '../config';
 import { Ball } from './ball';
 import { checkWorldBounds } from './arena-utills';
 import { arenaWall } from './arena-wall';
+import { ballLine, ballLineColition } from './line-circle';
 
 export class Arena extends Container {
     ball: Ball;
     cell: Cell;
     mouseStart: { x: number; y: number };
     mouseEnd: { x: number; y: number };
+    endCordinate: { x: number; y: number };
     count: number;
     wall: Row;
     constructor() {
@@ -19,7 +21,7 @@ export class Arena extends Container {
             x: 0,
             y: 0,
         };
-        this.mouseEnd = {
+        this.endCordinate = {
             x: 0,
             y: 0,
         };
@@ -59,17 +61,30 @@ export class Arena extends Container {
     }
 
     moveBall() {
-        const { cell_height } = ArenaConfig;
+        const { cell_height, ball_radius } = ArenaConfig;
         this.ball.position.set(
             (this.ball.position.x += this.ball.velocity.x),
             (this.ball.position.y += this.ball.velocity.y),
         );
 
-        if (this.ball.position.y === window.innerHeight - cell_height / 2 - 11) {
+        if (this.ball.position.y === window.innerHeight - cell_height / 2) {
             this.count = 1;
         }
 
         checkWorldBounds(this.ball);
+        if (
+            ballLine(
+                this.mouseStart.x,
+                this.mouseStart.y,
+                this.endCordinate.x,
+                this.endCordinate.y,
+                this.ball.position.x,
+                this.ball.position.y,
+                ball_radius,
+            )
+        ) {
+            ballLineColition(this.ball, this.mouseStart.x, this.mouseStart.y, this.endCordinate.x, this.endCordinate.y);
+        }
     }
 
     _onClickStart(e) {
@@ -93,14 +108,7 @@ export class Arena extends Container {
 
     _onClickMove(e) {
         const { wall_height } = ArenaConfig;
-        let obj = arenaWall(
-            this.mouseStart.x,
-            this.mouseStart.y,
-            e.data.global.x,
-            e.data.global.y,
-            this.mouseEnd.x,
-            this.mouseEnd.y,
-        );
+        this.endCordinate = arenaWall(this.mouseStart.x, this.mouseStart.y, e.data.global.x, e.data.global.y);
 
         if (this.count) {
             if (this.wall) {
@@ -109,7 +117,7 @@ export class Arena extends Container {
             this.wall = new Row();
             this.wall._build(wall_height);
             this.wall.moveTo(this.mouseStart.x, this.mouseStart.y);
-            this.wall.lineTo(obj.x, obj.y);
+            this.wall.lineTo(this.endCordinate.x, this.endCordinate.y);
             this.addChild(this.wall);
         }
     }
